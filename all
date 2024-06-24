@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Rough sequence of steps of entire pipeline.
+# See run_one_scenario_local.py for more authoritative and precise sequence.
+
+BIN=/home/ucs/code
+
+# These steps neeed to be executed only once; the output is consumed by later
+# pipeline steps below.
+
+# $BIN/get_dem_from_noaa.py
+# $BIN/extract_mhhw.py
+
+# The remaining steps need to be executed once for each
+# (year, severity, flood_frequency) scenario.
+
+$BIN/join_tides_transect.py
+$BIN/gen_transects_z.py
+$BIN/interpolate_slr.py
+$BIN/merge_mhhw_to_region.py
+
+$BIN/add_mhhw_slr.py
+$BIN/merge_dem_to_region.py
+$BIN/subtract.py
+$BIN/clump.py
+$BIN/extract_sea_clumps.py

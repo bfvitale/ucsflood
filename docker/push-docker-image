@@ -1,0 +1,1 @@
+docker tag ucs1 gcr.io/ucs1-00/ucs1 && docker image push gcr.io/ucs1-00/ucs1

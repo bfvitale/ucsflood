@@ -1,0 +1,12 @@
+[build-system]
+build-backend = 'mesonpy'
+requires = ['meson-python', 'numpy']
+
+[project]
+name = 'cgalinterp'
+version = '0.0.1'
+description = 'Wrapper around CGAL natural_neighbor_interpolation'
+requires-python = '>=3.8'
+dependencies = [
+  'numpy >= 1.7'
+]

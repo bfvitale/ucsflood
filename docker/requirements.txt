@@ -1,0 +1,17 @@
+six
+build
+fiona
+geographiclib
+geopy
+google-cloud-storage
+grass-session
+matplotlib
+netCDF4
+numpy
+pyproj
+rasterio
+rtree
+scikit-learn
+scipy
+shapely
+tqdm

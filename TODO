@@ -1,0 +1,42 @@
+
+- create README file.
+
+- Documentation.
+
+- Create top-level driver using make(1) or similar build system, or our own
+  make-like tool using principles such as declared dependencies, topological
+  sort of a directed acyclic graph, and execution thereof. Systolic concept,
+  with caching. Design simple system for remote execution on cluster VMs.
+
+- Each program ("script") here was mostly coded as a library, with the intent
+  of integrating into a single larger program. Write that program, instead of
+  the shell-script-like approach of executing each step as a separate program.
+
+- Factor out certain patterns repeated in the code, particularly
+  concurrent.futures processing of blocks and tiles.
+
+- Instead of clump-all and find-largest-connected-component, implement more
+  directly the "find ocean-connected component", likely using a flood-fill
+  algorithm. Single-threaded at first, concurrent if necessary.
+
+- Unit tests.
+
+- Replace some of our code with GRASS or other higher-level existing system,
+  if it can be made performant for our "sparse" rasters and for exploiting
+  multi-core CPU and/or multi-machine cluster.
+
+
+- Implement parallel clump, using published or novel (but simple) algorithm.
+
+- Validate ("backtest" ?) results against real physical observations,
+  particularly "hydrologic connectivity", interpolation, etc.
+
+- Integrate other pipeline phases, both earlier (e.g. Phil Thompson sea level
+  predictions) and later (Kristy's joins with demographics and public utility
+  infrastructure).
+
+- Abstract out calls to Google GCP into a portability layer that could
+  accomodate other Clouds or other API for cluster worker tasks. Consider
+  whether top-level driver should run outside or inside the worker cloud.
+
+- Investigate port to ArcGIS Online.

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+apt install -y docker.io
+
+DISK=/dev/disk/by-id/google-scratch
+MOUNTPOINT=/home/ben/ucs
+IMAGE=gcr.io/ucs1-00/ucs1
+
+/sbin/mkfs.ext4 -F -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard $DISK
+
+# TODO: make a separate read-only service-account
+gcloud storage cp gs://ucsadmin/gcr-key /tmp
+docker login -u _json_key --password-stdin https://gcr.io < /tmp/gcr-key
+docker image pull $IMAGE
+
+mkdir -p $MOUNTPOINT
+wait  # for mkfs
+mount -o discard,defaults $DISK $MOUNTPOINT
+chmod 1777 $MOUNTPOINT
+
+gcloud storage cp -r gs://ucsflood/template/* $MOUNTPOINT
+mkdir $MOUNTPOINT/output
+chown -R ben:ben $MOUNTPOINT
+chmod 755 $MOUNTPOINT/code/*
+
+/usr/sbin/iptables -I INPUT -p tcp --dport 2222 -j ACCEPT
+/sbin/ifconfig docker0 mtu 1460
+
+CONTAINER="ucs-con1"
+docker run --name $CONTAINER -d --hostname "$(hostname -s)-container" \
+           -i -p 2222:22 -v $MOUNTPOINT:$MOUNTPOINT -t $IMAGE /bin/bash
+docker exec $CONTAINER /usr/sbin/sshd
