@@ -16,7 +16,7 @@ def get_and_parse_controllers_js() -> List[str]:
     URL = 'https://coast.noaa.gov/slrdata/js/controllers.js'
     r = requests.get(URL)
     assert r.status_code == 200
-    # TODO: Does NOAA have an API we can use? This scraping is not robost.
+    # TODO: Does NOAA have an API we can use? This scraping is not robust.
     # TODO: parse the JS, e.g. esprima? Here we just treat it as text.
     # Evaluating remote code might raise security concerns.
     urls = []
